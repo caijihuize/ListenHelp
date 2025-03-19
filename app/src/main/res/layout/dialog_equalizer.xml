@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="均衡器设置"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="60Hz" />
+
+                <SeekBar
+                    android:id="@+id/equalizer_band_1"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:max="30"
+                    android:progress="15"
+                    android:rotation="270" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="230Hz" />
+
+                <SeekBar
+                    android:id="@+id/equalizer_band_2"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:max="30"
+                    android:progress="15"
+                    android:rotation="270" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="910Hz" />
+
+                <SeekBar
+                    android:id="@+id/equalizer_band_3"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:max="30"
+                    android:progress="15"
+                    android:rotation="270" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1.8kHz" />
+
+                <SeekBar
+                    android:id="@+id/equalizer_band_4"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:max="30"
+                    android:progress="15"
+                    android:rotation="270" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3.6kHz" />
+
+                <SeekBar
+                    android:id="@+id/equalizer_band_5"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:max="30"
+                    android:progress="15"
+                    android:rotation="270" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="7.2kHz" />
+
+                <SeekBar
+                    android:id="@+id/equalizer_band_6"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:max="30"
+                    android:progress="15"
+                    android:rotation="270" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="14kHz" />
+
+                <SeekBar
+                    android:id="@+id/equalizer_band_7"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:max="30"
+                    android:progress="15"
+                    android:rotation="270" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20kHz" />
+
+                <SeekBar
+                    android:id="@+id/equalizer_band_8"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:max="30"
+                    android:progress="15"
+                    android:rotation="270" />
+            </LinearLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <Button
+        android:id="@+id/button_save_equalizer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="保存设置" />
+</LinearLayout> 

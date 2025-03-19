@@ -1,0 +1,4 @@
+# ninja log v5
+122	1892	7640806584652395	CMakeFiles/audioproc.dir/audioproc.cpp.o	488369d86033a537
+1	1963	7640806585373434	CMakeFiles/audioproc.dir/AAudioProcessor.cpp.o	7f4eeb8f07cf3cb4
+1963	2390	7640806589638438	C:/info/ListenHelp6-branch3/app/build/intermediates/cxx/Debug/1lk3u5ya/obj/x86_64/libaudioproc.so	be3411de54f48aa9
