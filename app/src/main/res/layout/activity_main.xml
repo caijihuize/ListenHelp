@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 主布局使用ScrollView，确保内容过多时可以滚动 -->
 <ScrollView 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,11 +9,13 @@
     android:fillViewport="true"
     tools:context=".MainActivity">
 
+    <!-- 使用ConstraintLayout作为根布局，实现灵活的布局约束 -->
     <androidx.constraintlayout.widget.ConstraintLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
 
+        <!-- 设备选择卡片：用于选择输入和输出音频设备 -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_device_selection"
             android:layout_width="match_parent"
@@ -27,7 +30,7 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                
+                <!-- 标题栏：包含"设备选择"标题和刷新按钮 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -41,11 +44,13 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
+                    <!-- 分隔线 -->
                     <View
                         android:layout_width="0dp"
                         android:layout_height="1dp"
                         android:layout_weight="1" />
 
+                    <!-- 刷新设备列表按钮 -->
                     <Button
                         android:id="@+id/button_refresh_devices"
                         android:layout_width="wrap_content"
@@ -55,6 +60,7 @@
                     
                 </LinearLayout>
 
+                <!-- 输入设备选择区域 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -67,6 +73,7 @@
                         android:layout_marginTop="8dp"
                         android:text="输入设备" />
 
+                    <!-- 麦克风设备选择下拉框 -->
                     <Spinner
                         android:id="@+id/spinner_microphone"
                         android:layout_width="match_parent"
@@ -75,6 +82,7 @@
 
                 </LinearLayout>
 
+                <!-- 输出设备选择区域 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -87,6 +95,7 @@
                         android:layout_marginTop="8dp"
                         android:text="输出设备" />
 
+                    <!-- 扬声器设备选择下拉框 -->
                     <Spinner
                         android:id="@+id/spinner_speaker"
                         android:layout_width="match_parent"
@@ -97,6 +106,7 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <!-- 音频设置卡片：包含音量控制和音频处理选项 -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_audio_settings"
             android:layout_width="match_parent"
@@ -119,6 +129,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
+                <!-- 输入音量控制 -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -133,6 +144,7 @@
                     android:max="100"
                     android:progress="80" />
 
+                <!-- 输出音量控制 -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -147,6 +159,7 @@
                     android:max="100"
                     android:progress="80" />
 
+                <!-- 音频放大系数控制 -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -168,6 +181,7 @@
                     android:layout_gravity="end"
                     android:text="当前系数: 1.0" />
 
+                <!-- 降噪开关 -->
                 <Switch
                     android:id="@+id/switch_noise_reduction"
                     android:layout_width="match_parent"
@@ -175,6 +189,7 @@
                     android:layout_marginTop="8dp"
                     android:text="降噪" />
 
+                <!-- 开始/停止音频处理按钮 -->
                 <Button
                     android:id="@+id/button_audio_control"
                     android:layout_width="match_parent"
@@ -186,7 +201,7 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- 波形显示卡片 -->
+        <!-- 波形显示卡片：显示实时音频波形 -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_waveform"
             android:layout_width="match_parent"
@@ -209,6 +224,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
+                <!-- 波形显示区域：分为输入和输出两部分 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -216,6 +232,7 @@
                     android:layout_marginTop="8dp"
                     android:weightSum="2">
 
+                    <!-- 输入波形显示区域 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -227,6 +244,7 @@
                             android:layout_height="wrap_content"
                             android:text="输入波形" />
 
+                        <!-- 自定义波形显示视图 -->
                         <com.example.listenhelp6.audio.WaveformView
                             android:id="@+id/input_waveform"
                             android:layout_width="match_parent"
@@ -234,6 +252,7 @@
                             android:layout_marginTop="4dp" />
                     </LinearLayout>
 
+                    <!-- 输出波形显示区域 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -246,6 +265,7 @@
                             android:layout_marginTop="8dp"
                             android:text="输出波形" />
 
+                        <!-- 自定义波形显示视图 -->
                         <com.example.listenhelp6.audio.WaveformView
                             android:id="@+id/output_waveform"
                             android:layout_width="match_parent"
@@ -256,7 +276,7 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- 均衡器卡片 -->
+        <!-- 均衡器卡片：用于调节不同频率的音量 -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_equalizer"
             android:layout_width="match_parent"
@@ -274,6 +294,7 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
+                <!-- 均衡器标题栏：包含预设选择 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -287,11 +308,13 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
                     
+                    <!-- 分隔线 -->
                     <View
                         android:layout_width="0dp"
                         android:layout_height="1dp"
                         android:layout_weight="1" />
                     
+                    <!-- 均衡器预设选择下拉框 -->
                     <Spinner
                         android:id="@+id/spinner_equalizer_preset"
                         android:layout_width="wrap_content"
@@ -299,13 +322,14 @@
                         android:minWidth="120dp" />
                 </LinearLayout>
 
+                <!-- 均衡器频率调节区域 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginTop="8dp">
 
-                    <!-- 60Hz -->
+                    <!-- 60Hz频率调节 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -333,7 +357,7 @@
                             android:gravity="end" />
                     </LinearLayout>
                     
-                    <!-- 230Hz -->
+                    <!-- 230Hz频率调节 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -361,7 +385,7 @@
                             android:gravity="end" />
                     </LinearLayout>
                     
-                    <!-- 910Hz -->
+                    <!-- 910Hz频率调节 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -389,7 +413,7 @@
                             android:gravity="end" />
                     </LinearLayout>
                     
-                    <!-- 1.8kHz -->
+                    <!-- 1.8kHz频率调节 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -417,7 +441,7 @@
                             android:gravity="end" />
                     </LinearLayout>
                     
-                    <!-- 3.6kHz -->
+                    <!-- 3.6kHz频率调节 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -445,7 +469,7 @@
                             android:gravity="end" />
                     </LinearLayout>
                     
-                    <!-- 7.2kHz -->
+                    <!-- 7.2kHz频率调节 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -473,7 +497,7 @@
                             android:gravity="end" />
                     </LinearLayout>
                     
-                    <!-- 14kHz -->
+                    <!-- 14kHz频率调节 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -501,7 +525,7 @@
                             android:gravity="end" />
                     </LinearLayout>
                     
-                    <!-- 20kHz -->
+                    <!-- 20kHz频率调节 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

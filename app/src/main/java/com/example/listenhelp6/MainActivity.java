@@ -67,33 +67,34 @@ public class MainActivity extends AppCompatActivity {
     // 音频管理器
     private AAudioManager audioManager;
 
-    // UI组件
+    // 设备控制组件
+    private Button buttonRefreshDevices;
     private Spinner spinnerMicrophone;
     private Spinner spinnerSpeaker;
+    private List<AudioDeviceInfo> inputDevices;
+    private List<AudioDeviceInfo> outputDevices;
+
+    // 音量控制组件
     private SeekBar seekBarInputVolume;
     private SeekBar seekBarOutputVolume;
     private SeekBar seekBarAmplification;
     private TextView textAmplificationValue;
     private Switch switchNoiseReduction;
+
+    // 服务启动和停止按钮
     private Button buttonAudioControl;
-    private Button buttonRefreshDevices;
-    private WaveformView inputWaveformView;
-    private WaveformView outputWaveformView;
-    private Spinner spinnerEqualizerPreset;
-    
+    private boolean isAudioRunning = false;
+
     // 均衡器滑块和显示
+    private Spinner spinnerEqualizerPreset;
     private SeekBar[] eqSeekBars = new SeekBar[8];
     private TextView[] eqTextViews = new TextView[8];
-
-    // 设备列表
-    private List<AudioDeviceInfo> inputDevices;
-    private List<AudioDeviceInfo> outputDevices;
-    
-    // 音频状态
-    private boolean isAudioRunning = false;
     private int currentEqualizerPreset = PRESET_CUSTOM;
-    
-    // 波形显示定时器
+
+    // 波形显示组件
+    private WaveformView inputWaveformView;
+    private WaveformView outputWaveformView;
+
     private final Handler waveformHandler = new Handler(Looper.getMainLooper());
     private final Runnable waveformUpdater = new Runnable() {
         @Override
@@ -137,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
         // 初始化视图
@@ -415,7 +415,6 @@ public class MainActivity extends AppCompatActivity {
                 if (position == 0) {
                     // 选择了"跟随系统"
                     Log.i(TAG, "输入设备设置为跟随系统");
-                    Toast.makeText(MainActivity.this, "输入设备将跟随系统选择", Toast.LENGTH_SHORT).show();
                     
                     if (audioManager != null) {
                         audioManager.clearInputDevice();
@@ -429,11 +428,6 @@ public class MainActivity extends AppCompatActivity {
                     // 调整索引，因为添加了"跟随系统"选项
                     AudioDeviceInfo selectedDevice = inputDevices.get(position - 1);
                     Log.i(TAG, "尝试切换输入设备到: " + getDeviceName(selectedDevice));
-                    
-                    // 显示提示
-                    Toast.makeText(MainActivity.this, 
-                            "正在切换到 " + getDeviceName(selectedDevice), 
-                            Toast.LENGTH_SHORT).show();
                             
                     audioManager.setInputDevice(selectedDevice);
                     
@@ -455,7 +449,6 @@ public class MainActivity extends AppCompatActivity {
                 if (position == 0) {
                     // 选择了"跟随系统"
                     Log.i(TAG, "输出设备设置为跟随系统");
-                    Toast.makeText(MainActivity.this, "输出设备将跟随系统选择", Toast.LENGTH_SHORT).show();
                     
                     if (audioManager != null) {
                         audioManager.clearOutputDevice();
@@ -469,11 +462,6 @@ public class MainActivity extends AppCompatActivity {
                     // 调整索引，因为添加了"跟随系统"选项
                     AudioDeviceInfo selectedDevice = outputDevices.get(position - 1);
                     Log.i(TAG, "尝试切换输出设备到: " + getDeviceName(selectedDevice));
-                    
-                    // 显示提示
-                    Toast.makeText(MainActivity.this, 
-                            "正在切换到 " + getDeviceName(selectedDevice), 
-                            Toast.LENGTH_SHORT).show();
                             
                     audioManager.setOutputDevice(selectedDevice);
                     
@@ -563,9 +551,6 @@ public class MainActivity extends AppCompatActivity {
             // 更新滑块位置(0-30范围)，将-15到15映射到0-30
             eqSeekBars[i].setProgress(equalizerLevels[i] + 15);
         }
-        
-        // 显示模拟波形，但不自动开始音频处理
-        startDemoWaveformDisplay();
     }
 
     private String getDeviceName(AudioDeviceInfo device) {
@@ -602,9 +587,6 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         
-        // 停止模拟波形显示
-        stopDemoWaveformDisplay();
-        
         // 清空当前波形
         inputWaveformView.clearWaveform();
         outputWaveformView.clearWaveform();
@@ -612,11 +594,7 @@ public class MainActivity extends AppCompatActivity {
         // 启动AAudio处理
         boolean success = audioManager.startAudio();
         if (!success) {
-            Toast.makeText(this, "启动音频处理失败", Toast.LENGTH_SHORT).show();
             Log.e(TAG, "启动音频处理失败");
-            
-            // 如果失败，重新启动模拟波形显示
-            startDemoWaveformDisplay();
             
             // 更新按钮状态
             isAudioRunning = false;
@@ -638,27 +616,15 @@ public class MainActivity extends AppCompatActivity {
         if (audioManager != null) {
             audioManager.stopAudio();
         }
-        
-        // 启动模拟波形显示
-        startDemoWaveformDisplay();
-        
-        isAudioRunning = false;
-        
+
         // 通知服务音频已停止处理
         if (isServiceBound && audioProcessingService != null) {
             audioProcessingService.stopAudioProcessing();
         }
-    }
-    
-    // 启动模拟波形显示（当真实音频数据不可用时使用）
-    private void startDemoWaveformDisplay() {
-        waveformHandler.removeCallbacks(waveformUpdater); // 先清除可能已经存在的回调
-        waveformHandler.post(waveformUpdater);
-    }
-    
-    // 停止模拟波形显示
-    private void stopDemoWaveformDisplay() {
-        waveformHandler.removeCallbacks(waveformUpdater);
+
+        // 更新按钮状态
+        isAudioRunning = false;
+        buttonAudioControl.setText("开始音频处理");
     }
 
     private void checkAndRequestPermissions() {
@@ -707,7 +673,6 @@ public class MainActivity extends AppCompatActivity {
                 loadSettings();
             } else {
                 Toast.makeText(this, "需要相关权限才能继续", Toast.LENGTH_LONG).show();
-                startDemoWaveformDisplay();
             }
         }
     }
@@ -720,6 +685,8 @@ public class MainActivity extends AppCompatActivity {
         if (audioManager != null) {
             audioManager.resumeFromLock();
         }
+
+        loadSettings();
     }
 
     @Override
@@ -730,6 +697,8 @@ public class MainActivity extends AppCompatActivity {
         if (audioManager != null) {
             audioManager.prepareForLock();
         }
+
+        saveSettings();
     }
 
     @Override
@@ -750,23 +719,20 @@ public class MainActivity extends AppCompatActivity {
             buttonAudioControl.setText("开始音频处理");
             isAudioRunning = false;
         }
-        stopDemoWaveformDisplay();
         
         if (audioManager != null) {
             audioManager.release();
         }
-        
+
+        saveSettings();
         super.onDestroy();
     }
 
     // 刷新音频设备列表
     private void refreshAudioDevices() {
         // 如果音频正在运行，先停止
-        boolean wasRunning = isAudioRunning;
-        if (wasRunning) {
+        if (isAudioRunning) {
             stopAudioProcessing();
-            buttonAudioControl.setText("开始音频处理");
-            isAudioRunning = false;
         }
         
         // 重新获取设备列表
@@ -782,6 +748,7 @@ public class MainActivity extends AppCompatActivity {
     private void saveSettings() {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
+        editor.clear();
         
         // 保存基本设置
         editor.putInt(KEY_INPUT_VOLUME, seekBarInputVolume.getProgress());
