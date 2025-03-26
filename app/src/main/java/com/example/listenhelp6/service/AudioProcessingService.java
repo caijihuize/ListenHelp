@@ -25,7 +25,6 @@ public class AudioProcessingService extends Service {
     
     // 通知相关常量
     private static final String CHANNEL_ID = "listen_help_channel";
-    private static final String CHANNEL_NAME = "听力辅助";
     private static final int NOTIFICATION_ID = 1001;
     
     // 服务状态
